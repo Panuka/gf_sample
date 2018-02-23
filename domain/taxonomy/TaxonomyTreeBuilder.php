@@ -24,7 +24,8 @@ class TaxonomyTreeBuilder implements TaxonomyTreeBuilderInterface
      * @param StuffTaxonomy[] $terms
      * @return TaxonomyTreeDto
      */
-    private function buildTree($terms) {
+    private function buildTree($terms)
+    {
         $root = new StuffTaxonomy();
         $root->title = 'Catalog';
         $root->_id = '';
@@ -40,7 +41,7 @@ class TaxonomyTreeBuilder implements TaxonomyTreeBuilderInterface
         }
 
         $new = array();
-        foreach ($termsDto as $a){
+        foreach ($termsDto as $a) {
             $new[$a->getParentId()][] = $a;
         }
 
@@ -54,10 +55,11 @@ class TaxonomyTreeBuilder implements TaxonomyTreeBuilderInterface
      * @param TaxonomyTreeDto[] $parent
      * @return array
      */
-    private function createTree(&$list, $parent){
+    private function createTree(&$list, $parent)
+    {
         $tree = array();
-        foreach ($parent as $k=>$l){
-            if(isset($list[$l->getId()])){
+        foreach ($parent as $k => $l) {
+            if (isset($list[$l->getId()])) {
                 $l->childs = $this->createTree($list, $list[$l->getId()]);
             }
             $tree[] = $l;

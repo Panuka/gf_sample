@@ -2,7 +2,9 @@
 
 
 namespace app\models\gf;
-use app\models\gf\ActiveRecord\Operation;
+
+use app\domain\roadmap\Operation;
+use app\domain\roadmap\Taxonomy;
 
 
 /**
@@ -11,23 +13,38 @@ use app\models\gf\ActiveRecord\Operation;
 class Step
 {
 
-    /** @var Stuff */
+    /** @var Taxonomy */
     private $stuff;
 
-    /** @var Operation */
-    private $operation;
+    /** @var Operation[] */
+    private $operations;
 
-    /** @var Stuff[] */
+    /** @var Taxonomy[] */
     private $stuffAddiction;
 
-    /** @var string */
-    private $comment;
+    public $qwe = '123';
 
-    /** @var int */
-    private $time;
+    /**
+     * Step constructor.
+     * @param Taxonomy $stuff
+     * @param Operation[] $operations
+     * @param Taxonomy[] $stuffAddiction
+     */
+    public function __construct(Taxonomy $stuff=null, array $operations=[], array $stuffAddiction=[])
+    {
+        $this->stuff = $stuff;
+        $this->operations = $operations;
+        $this->stuffAddiction = $stuffAddiction;
+    }
 
-    /** @var int */
-    private $volume;
+    public function toArray()
+    {
+        return [
+            'stuff'=> $this->stuff?$this->stuff->toArray():null,
+            'operations' => array_map(function(Operation $el) {return $el->toArray();}, $this->operations),
+            'stuffAddiction' => array_map(function(Taxonomy $el) {return $el->toArray();}, $this->stuffAddiction),
+        ];
+    }
 
 
 }

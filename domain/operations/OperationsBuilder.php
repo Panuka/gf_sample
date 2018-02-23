@@ -11,7 +11,7 @@ class OperationsBuilder implements OperationsBuilderInterface
 {
 
     /**
-     * @return OperationsDto[]
+     * @inheritdoc
      */
     public function getAllOperations()
     {

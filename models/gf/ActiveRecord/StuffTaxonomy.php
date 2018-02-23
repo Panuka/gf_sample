@@ -23,7 +23,7 @@ class StuffTaxonomy extends ActiveRecord
      */
     public static function collectionName()
     {
-        return ['stuff', 'Stuff'];
+        return ['gf', 'stuff'];
     }
 
     /**

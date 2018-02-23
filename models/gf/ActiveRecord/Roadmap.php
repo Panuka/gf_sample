@@ -2,6 +2,7 @@
 
 namespace app\models\gf\ActiveRecord;
 
+use app\domain\roadmap\Taxonomy;
 use app\models\gf\Step;
 use MongoDB\BSON\ObjectID;
 use yii\mongodb\ActiveRecord;
@@ -13,31 +14,17 @@ use yii\mongodb\ActiveRecord;
  * @property Step[] $steps
  * @property int $outVolume
  * @property string $uid
+ * @property string $title
  */
 class Roadmap extends ActiveRecord
 {
-
-    /** @var ObjectID|string  */
-    public $_id;
-
-    /** @var string */
-    public $title;
-
-    /** @var Step[]  */
-    public $steps = [];
-
-    /** @var int  */
-    public $outVolume = 0;
-
-    /** @var string  */
-    public $uid;
 
     /**
      * {@inheritdoc}
      */
     public static function collectionName()
     {
-        return ['roadmaps', 'Roadmap'];
+        return ['gf', 'roadmap'];
     }
 
     /**
@@ -76,11 +63,6 @@ class Roadmap extends ActiveRecord
             'outVolume' => 'Out Volume',
             'uid' => 'Uid',
         ];
-    }
-
-
-    public static function getStub() {
-
     }
 }
 

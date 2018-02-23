@@ -21,56 +21,64 @@ class TaxonomyTreeDto
         $this->childs = $childs;
     }
 
-    public function getId() {
+    public function getId()
+    {
         return (string)$this->stuffTaxonomy->_id;
     }
 
-    public function getParentId() {
-        return (string)($this->stuffTaxonomy->parent_id?$this->stuffTaxonomy->parent_id:'');
+    public function getParentId()
+    {
+        return (string)($this->stuffTaxonomy->parent_id ? $this->stuffTaxonomy->parent_id : '');
     }
 
-    public static function fromStuffTaxonomy(StuffTaxonomy $stuffTaxonomy) {
+    public static function fromStuffTaxonomy(StuffTaxonomy $stuffTaxonomy)
+    {
         return new self($stuffTaxonomy);
     }
 
-    public function toInlineArray() {
+    public function toInlineArray()
+    {
         $line = [];
         $line = $this->internalInlineArray($this, $line);
         return $line;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return $this->internalArray($this);
     }
 
-    public function printDto() {
+    public function printDto()
+    {
         $this->out($this);
     }
 
 
-
-    private function out($dto) {
-        echo "Категория: ".$dto->stuffTaxonomy->title;
+    private function out($dto)
+    {
+        echo "Категория: " . $dto->stuffTaxonomy->title;
         foreach ($dto->childs as $child) {
             $this->out($child);
         }
     }
 
-    private function internalInlineArray(self $dto, array &$line, $level = 0) {
+    private function internalInlineArray(self $dto, array &$line, $level = 0)
+    {
         $fields = $dto->stuffTaxonomy->getPublicFields();;
         $fields['level'] = $level;
         $line[] = $fields;
         foreach ($dto->childs as $child) {
-            $this->internalInlineArray($child, $line, ($level+1));
+            $this->internalInlineArray($child, $line, ($level + 1));
         }
         return $line;
 
     }
 
-    private function internalArray(self $dto) {
+    private function internalArray(self $dto)
+    {
         return [
             'element' => $dto->stuffTaxonomy->getPublicFields(),
-            'childs' => array_map(function($childs) {
+            'childs' => array_map(function ($childs) {
                 $newChilds = [];
                 $newChilds[] = $this->internalArray($childs);
                 return $newChilds;

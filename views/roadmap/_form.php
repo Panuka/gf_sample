@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $catalogsDto \app\application\roadmap\dto\CatalogsDto */
 ?>
-<style>
+<style xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     .flow, .flow > div {
         display: block;
         padding: 9.5px;
@@ -59,60 +59,37 @@ use yii\widgets\ActiveForm;
 
 
 
-        <div class="col-md-8 flow">
-            <table class="table table-striped table-bordered step">
+        <div class="col-md-8 flow" ref="roadmap"
+             data-json="<?= htmlspecialchars($model->steps) ?>">
+            <table class="table table-striped table-bordered step" v-for="(step, ind) in steps" >
                 <tr>
-                    <td colspan="3">Шаг 1.</td>
+                    <td colspan="3">Шаг {{ind+1}}.</td>
                 </tr>
-                <tr>
+                <tr v-if="step.stuff">
                     <td>Сырье</td>
-                    <td>Курица</td>
-                    <td>10гр</td>
+                    <td>{{step.stuff.title}}</td>
+                    <td>{{step.stuff.count}} {{step.stuff.measure}}</td>
                 </tr>
-                <tr>
+                <tr v-if="step.operations.length > 0">
                     <td>Операции</td>
                     <td colspan="2">
                         <table class="table table-striped table-bordered">
-                            <tr>
-                                <td>2</td>
-                                <td>Резка кубиками</td>
-                                <td>Очень быстро!</td>
-                                <td>10 сек</td>
+                            <tr v-for="(operation,i) in step.operations">
+                                <td>{{ actionCount(i) }}</td>
+                                <td>{{operation.title}}</td>
+                                <td v-if="operation.comment">{{operation.comment}}</td>
+                                <td>{{operation.time}} сек</td>
                             </tr>
                         </table>
                     </td>
                 </tr>
-                <tr>
+                <tr v-if="step.stuffAddiction.length > 0">
                     <td>Доп. сырье</td>
                     <td colspan="2">
                         <table class="table table-striped table-bordered">
-                            <tr>
-                                <td>Курица</td>
-                                <td>10гр</td>
-                            </tr>
-                            <tr>
-                                <td>Курица</td>
-                                <td>10гр</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-
-
-            <table class="table table-striped table-bordered step">
-                <tr>
-                    <td colspan="3">Шаг 2.</td>
-                </tr>
-                <tr>
-                    <td>Операции</td>
-                    <td colspan="2">
-                        <table class="table table-striped table-bordered">
-                            <tr>
-                                <td>2</td>
-                                <td>Резка кубиками</td>
-                                <td>Очень быстро!</td>
-                                <td>10 сек</td>
+                            <tr v-for="stuff in step.stuffAddiction">
+                                <td>{{stuff.title}}</td>
+                                <td>{{stuff.count}} {{stuff.measure}}</td>
                             </tr>
                         </table>
                     </td>

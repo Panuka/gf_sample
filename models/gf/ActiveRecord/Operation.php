@@ -18,7 +18,7 @@ class Operation extends ActiveRecord
      */
     public static function collectionName()
     {
-        return ['operations', 'Operations'];
+        return ['gf', 'operations'];
     }
 
     /**
