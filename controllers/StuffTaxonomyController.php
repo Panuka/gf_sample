@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use MongoDB\BSON\ObjectId;
 use Yii;
 use app\models\gf\ActiveRecord\StuffTaxonomy;
 use yii\data\ActiveDataProvider;
@@ -36,7 +37,7 @@ class StuffTaxonomyController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => StuffTaxonomy::find(),
+            'query' => StuffTaxonomy::find()->with('parent'),
         ]);
 
         return $this->render('index', [
@@ -53,7 +54,7 @@ class StuffTaxonomyController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($id)
         ]);
     }
 
@@ -71,14 +72,14 @@ class StuffTaxonomyController extends Controller
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model' => $model
         ]);
     }
 
     /**
      * Updates an existing StuffTaxonomy model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $_id
+     * @param integer ‘$_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -91,16 +92,18 @@ class StuffTaxonomyController extends Controller
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $model
         ]);
     }
 
     /**
      * Deletes an existing StuffTaxonomy model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $_id
+     * @param $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Exception
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
@@ -118,10 +121,11 @@ class StuffTaxonomyController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = StuffTaxonomy::findOne($id)) !== null) {
+        if (($model = StuffTaxonomy::find()->where(['_id'=>new ObjectId($id)])->with('parent')->one()) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }

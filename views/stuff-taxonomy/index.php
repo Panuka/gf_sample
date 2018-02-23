@@ -1,5 +1,6 @@
 <?php
 
+use app\models\gf\ActiveRecord\StuffTaxonomy;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -26,7 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'measure',
             'parent',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
