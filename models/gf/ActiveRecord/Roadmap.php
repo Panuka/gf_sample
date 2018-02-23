@@ -16,6 +16,22 @@ use yii\mongodb\ActiveRecord;
  */
 class Roadmap extends ActiveRecord
 {
+
+    /** @var ObjectID|string  */
+    public $_id;
+
+    /** @var string */
+    public $title;
+
+    /** @var Step[]  */
+    public $steps = [];
+
+    /** @var int  */
+    public $outVolume = 0;
+
+    /** @var string  */
+    public $uid;
+
     /**
      * {@inheritdoc}
      */
@@ -32,6 +48,7 @@ class Roadmap extends ActiveRecord
         return [
             '_id',
             'steps',
+            'title',
             'outVolume',
             'uid',
         ];
@@ -43,7 +60,7 @@ class Roadmap extends ActiveRecord
     public function rules()
     {
         return [
-            [['steps', 'outVolume', 'uid'], 'safe']
+            [['steps', 'outVolume', 'title', 'uid'], 'safe']
         ];
     }
 
@@ -55,8 +72,41 @@ class Roadmap extends ActiveRecord
         return [
             '_id' => 'ID',
             'steps' => 'Steps',
+            'title' => 'Title',
             'outVolume' => 'Out Volume',
             'uid' => 'Uid',
         ];
     }
+
+
+    public static function getStub() {
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -27,6 +27,9 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'services' => [
+            'class' => 'yii\di\ServiceLocator',
+        ],
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
@@ -61,7 +64,15 @@ $config = [
         */
     ],
     'params' => $params,
+    'container' => [
+        'definitions' => [
+            \app\application\roadmap\dto\CatalogsDtoAssemblerInterface::class => \app\infrastructure\assemblers\CatalogsDtoAssembler::class,
+            \app\domain\taxonomy\TaxonomyTreeBuilderInterface::class => \app\domain\taxonomy\TaxonomyTreeBuilder::class,
+            \app\domain\operations\OperationsBuilderInterface::class => \app\domain\operations\OperationsBuilder::class
+        ]
+    ]
 ];
+
 
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment

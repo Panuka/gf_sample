@@ -2,31 +2,26 @@
 
 namespace app\controllers;
 
+use app\application\roadmap\dto\CatalogsDtoAssemblerInterface;
 use Yii;
 use app\models\gf\ActiveRecord\Roadmap;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * RoadmapController implements the CRUD actions for Roadmap model.
  */
 class RoadmapController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
+
+    /** @var CatalogsDtoAssemblerInterface  */
+    private $catalogsDtoAssembler;
+
+    public function __construct($id, $module, array $config = [], CatalogsDtoAssemblerInterface $catalogsDtoAssembler)
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
+        $this->catalogsDtoAssembler = $catalogsDtoAssembler;
+        parent::__construct($id, $module, $config);
     }
 
     /**
@@ -72,6 +67,7 @@ class RoadmapController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'catalogsDto' => $this->catalogsDtoAssembler->build(),
         ]);
     }
 
@@ -104,24 +100,8 @@ class RoadmapController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        Roadmap::findOne($id)->delete();
 
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Roadmap model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $_id
-     * @return Roadmap the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Roadmap::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
