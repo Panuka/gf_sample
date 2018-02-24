@@ -53,6 +53,7 @@ class RoadmapController extends Controller
     {
         return $this->render('view', [
             'model' => Roadmap::findOne($id),
+            'catalogsDto' => $this->catalogsDtoAssembler->build(),
         ]);
     }
 

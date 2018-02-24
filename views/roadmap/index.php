@@ -23,11 +23,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             '_id',
-            'steps',
+//            'steps',
             'outVolume',
             'uid',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn', 'buttons'=>['update'=>function(){return '';}]],
         ],
     ]); ?>
 </div>
