@@ -15,27 +15,45 @@ class TaxonomyTreeDto
     /** @var TaxonomyTreeDto[] */
     public $childs;
 
+    /**
+     * TaxonomyTreeDto constructor.
+     * @param StuffTaxonomy $stuffTaxonomy
+     * @param StuffTaxonomy[] $childs
+     */
     public function __construct($stuffTaxonomy, $childs = [])
     {
         $this->stuffTaxonomy = $stuffTaxonomy;
         $this->childs = $childs;
     }
 
+    /**
+     * @return string
+     */
     public function getId()
     {
         return (string)$this->stuffTaxonomy->_id;
     }
 
+    /**
+     * @return string
+     */
     public function getParentId()
     {
         return (string)($this->stuffTaxonomy->parent_id ? $this->stuffTaxonomy->parent_id : '');
     }
 
+    /**
+     * @param StuffTaxonomy $stuffTaxonomy
+     * @return TaxonomyTreeDto
+     */
     public static function fromStuffTaxonomy(StuffTaxonomy $stuffTaxonomy)
     {
         return new self($stuffTaxonomy);
     }
 
+    /**
+     * @return TaxonomyTreeDto[]
+     */
     public function toInlineArray()
     {
         $line = [];
@@ -43,6 +61,9 @@ class TaxonomyTreeDto
         return $line;
     }
 
+    /**
+     * @return TaxonomyTreeDto[]
+     */
     public function toArray()
     {
         return $this->internalArray($this);
@@ -54,7 +75,10 @@ class TaxonomyTreeDto
     }
 
 
-    private function out($dto)
+    /**
+     * @param TaxonomyTreeDto $dto
+     */
+    private function out(self $dto)
     {
         echo "Категория: " . $dto->stuffTaxonomy->title;
         foreach ($dto->childs as $child) {
@@ -62,6 +86,12 @@ class TaxonomyTreeDto
         }
     }
 
+    /**
+     * @param TaxonomyTreeDto $dto
+     * @param TaxonomyTreeDto[] $line
+     * @param int $level
+     * @return TaxonomyTreeDto[]
+     */
     private function internalInlineArray(self $dto, array &$line, $level = 0)
     {
         $fields = $dto->stuffTaxonomy->getPublicFields();;
@@ -74,6 +104,10 @@ class TaxonomyTreeDto
 
     }
 
+    /**
+     * @param TaxonomyTreeDto $dto
+     * @return TaxonomyTreeDto[]
+     */
     private function internalArray(self $dto)
     {
         return [

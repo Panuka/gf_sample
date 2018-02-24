@@ -22,8 +22,6 @@ class Step
     /** @var Taxonomy[] */
     private $stuffAddiction;
 
-    public $qwe = '123';
-
     /**
      * Step constructor.
      * @param Taxonomy $stuff
